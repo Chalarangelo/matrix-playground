@@ -1,7 +1,10 @@
 import Matrix from '../src/matrix.js';
 import { describe, it, expect } from 'vitest';
 
-describe.each([['Naive2D', Matrix.Naive2D]])('Matrix %s', (_, MatrixClass) => {
+describe.each([
+  ['Naive2D', Matrix.Naive2D],
+  ['Flat1D', Matrix.Flat1D],
+])('Matrix %s', (_, MatrixClass) => {
   it('should iterate over the matrix elements', () => {
     const data = [
       [1, 2, 3],
