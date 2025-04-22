@@ -16,6 +16,21 @@ describe.each([
     expect(elements).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
+  it('should return the correct indexes', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new MatrixClass(data);
+    const indexes = Array.from(matrix.indexes());
+    expect(indexes).toEqual([
+      [0, 0],
+      [0, 1],
+      [1, 0],
+      [1, 1],
+    ]);
+  });
+
   it('should have the correct number of rows and columns', () => {
     const data = [
       [1, 2],
