@@ -1,5 +1,8 @@
-class Matrix {
+import BaseMatrix from './base.js';
+
+class Matrix extends BaseMatrix {
   constructor(data) {
+    super();
     this.rows = data.length;
     this.cols = data[0].length;
     this.data = data.flat(Infinity);
@@ -27,14 +30,6 @@ class Matrix {
     }
   }
 
-  *indexes() {
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        yield [i, j];
-      }
-    }
-  }
-
   #index(i, j) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols)
       throw new RangeError('Index out of bounds');
@@ -48,30 +43,6 @@ class Matrix {
 
   set(i, j, value) {
     this.data[this.#index(i, j)] = value;
-  }
-
-  add(matrix) {
-    if (this.rows !== matrix.rows || this.cols !== matrix.cols)
-      throw new Error('Matrix dimensions do not match');
-
-    const newMatrixSparse = Matrix.sparseFrom(this);
-
-    for (let [i, j] of this.indexes())
-      newMatrixSparse.set(i, j, this.get(i, j) + matrix.get(i, j));
-
-    return newMatrixSparse;
-  }
-
-  subtract(matrix) {
-    if (this.rows !== matrix.rows || this.cols !== matrix.cols)
-      throw new Error('Matrix dimensions do not match');
-
-    const newMatrixSparse = Matrix.sparseFrom(this);
-
-    for (let [i, j] of this.indexes())
-      newMatrixSparse.set(i, j, this.get(i, j) - matrix.get(i, j));
-
-    return newMatrixSparse;
   }
 }
 
