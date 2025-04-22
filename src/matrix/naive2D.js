@@ -12,6 +12,21 @@ class Naive2D {
       }
     }
   }
+
+  #checkIndex(i, j) {
+    if (i < 0 || i >= this.rows || j < 0 || j >= this.cols)
+      throw new RangeError('Index out of bounds');
+  }
+
+  get(i, j) {
+    this.#checkIndex(i, j);
+    return this.data[i][j];
+  }
+
+  set(i, j, value) {
+    this.#checkIndex(i, j);
+    this.data[i][j] = value;
+  }
 }
 
 export default Naive2D;

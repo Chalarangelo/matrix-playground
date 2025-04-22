@@ -25,4 +25,33 @@ describe.each([
     expect(matrix.rows).toBe(2);
     expect(matrix.cols).toBe(2);
   });
+
+  it('should get elements correctly', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new MatrixClass(data);
+    expect(matrix.get(0, 1)).toBe(2);
+  });
+
+  it('should set elements correctly', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new MatrixClass(data);
+    matrix.set(1, 1, 10);
+    expect(matrix.get(1, 1)).toBe(10);
+  });
+
+  it('should throw an error for out-of-bounds access', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new MatrixClass(data);
+    expect(() => matrix.get(2, 0)).toThrow('Index out of bounds');
+    expect(() => matrix.set(0, 3, 10)).toThrow('Index out of bounds');
+  });
 });
