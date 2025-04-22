@@ -13,6 +13,14 @@ class Matrix {
     return newMatrix;
   }
 
+  static sparseFrom({ rows, cols }) {
+    const newMatrix = new Matrix([[]]);
+    Array.from({ length: rows * cols });
+    newMatrix.rows = rows;
+    newMatrix.cols = cols;
+    return newMatrix;
+  }
+
   *[Symbol.iterator]() {
     for (let i = 0; i < this.rows * this.cols; i++) {
       yield this.data[i];
@@ -46,16 +54,24 @@ class Matrix {
     if (this.rows !== matrix.rows || this.cols !== matrix.cols)
       throw new Error('Matrix dimensions do not match');
 
+    const newMatrixSparse = Matrix.sparseFrom(this);
+
     for (let [i, j] of this.indexes())
-      this.set(i, j, this.get(i, j) + matrix.get(i, j));
+      newMatrixSparse.set(i, j, this.get(i, j) + matrix.get(i, j));
+
+    return newMatrixSparse;
   }
 
   subtract(matrix) {
     if (this.rows !== matrix.rows || this.cols !== matrix.cols)
       throw new Error('Matrix dimensions do not match');
 
+    const newMatrixSparse = Matrix.sparseFrom(this);
+
     for (let [i, j] of this.indexes())
-      this.set(i, j, this.get(i, j) - matrix.get(i, j));
+      newMatrixSparse.set(i, j, this.get(i, j) - matrix.get(i, j));
+
+    return newMatrixSparse;
   }
 }
 

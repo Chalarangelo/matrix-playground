@@ -79,10 +79,10 @@ describe.each([
       [5, 6],
       [7, 8],
     ];
-    const matrix1 = new MatrixClass(data1);
-    const matrix2 = new MatrixClass(data2);
-    matrix1.add(matrix2);
-    expect([...matrix1]).toEqual([6, 8, 10, 12]);
+    const a = new MatrixClass(data1);
+    const b = new MatrixClass(data2);
+    const result = a.add(b);
+    expect([...result]).toEqual([6, 8, 10, 12]);
   });
 
   it('should subtract the matrix correctly', () => {
@@ -94,10 +94,10 @@ describe.each([
       [1, 2],
       [3, 4],
     ];
-    const matrix1 = new MatrixClass(data1);
-    const matrix2 = new MatrixClass(data2);
-    matrix1.subtract(matrix2);
-    expect([...matrix1]).toEqual([4, 4, 4, 4]);
+    const a = new MatrixClass(data1);
+    const b = new MatrixClass(data2);
+    const result = a.subtract(b);
+    expect([...result]).toEqual([4, 4, 4, 4]);
   });
 
   it('should create a matrix from dimensions', () => {
