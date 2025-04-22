@@ -11,7 +11,7 @@ describe.each([
   ],
   [
     'iteration',
-    MatrixClass => () => {
+    MatrixClass => {
       const data = [
         [1, 2, 3, 4, 5, 6, 7, 8, 9],
         [4, 5, 6, 7, 8, 9, 1, 2, 3],
@@ -24,27 +24,31 @@ describe.each([
         [7, 8, 9, 1, 2, 3, 4, 5, 6],
       ];
       const matrix = new MatrixClass(data);
-      [...matrix];
+      return () => {
+        [...matrix];
+      };
     },
     { iterations: 10_000 },
   ],
   [
     'getter/setter',
-    MatrixClass => () => {
+    MatrixClass => {
       const data = [
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9],
       ];
       const matrix = new MatrixClass(data);
-      const value = matrix.get(1, 1);
-      matrix.set(1, 1, value + 1);
+      return () => {
+        const value = matrix.get(1, 1);
+        matrix.set(1, 1, value + 1);
+      };
     },
     { iterations: 1_000 },
   ],
   [
     'addition',
-    MatrixClass => () => {
+    MatrixClass => {
       const data1 = [
         [1, 2, 3],
         [4, 5, 6],
@@ -57,13 +61,15 @@ describe.each([
       ];
       const matrix1 = new MatrixClass(data1);
       const matrix2 = new MatrixClass(data2);
-      matrix1.add(matrix2);
+      return () => {
+        matrix1.add(matrix2);
+      };
     },
     { iterations: 1_000 },
   ],
   [
     'multiplication',
-    MatrixClass => () => {
+    MatrixClass => {
       const data1 = [
         [1, 0, 1],
         [2, 1, 1],
@@ -77,7 +83,9 @@ describe.each([
       ];
       const matrix1 = new MatrixClass(data1);
       const matrix2 = new MatrixClass(data2);
-      matrix1.multiply(matrix2);
+      return () => {
+        matrix1.multiply(matrix2);
+      };
     },
     { iterations: 100 },
   ],

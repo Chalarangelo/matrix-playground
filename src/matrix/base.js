@@ -7,6 +7,11 @@ class Matrix {
     }
   }
 
+  checkIndex(i, j) {
+    if (i < 0 || i >= this.rows || j < 0 || j >= this.cols)
+      throw new RangeError('Index out of bounds');
+  }
+
   add(matrix) {
     if (this.rows !== matrix.rows || this.cols !== matrix.cols)
       throw new Error('Matrix dimensions do not match');

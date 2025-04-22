@@ -31,17 +31,16 @@ class Matrix extends BaseMatrix {
   }
 
   #index(i, j) {
-    if (i < 0 || i >= this.rows || j < 0 || j >= this.cols)
-      throw new RangeError('Index out of bounds');
-
     return i * this.cols + j;
   }
 
   get(i, j) {
+    this.checkIndex(i, j);
     return this.data[this.#index(i, j)];
   }
 
   set(i, j, value) {
+    this.checkIndex(i, j);
     this.data[this.#index(i, j)] = value;
   }
 }
