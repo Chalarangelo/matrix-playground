@@ -8,6 +8,10 @@ class Matrix extends BaseMatrix {
     this.data = data.flat(Infinity);
   }
 
+  fill(value) {
+    for (let i = 0; i < this.rows * this.cols; i++) this.data[i] = value;
+  }
+
   static from({ rows, cols }) {
     const newMatrix = new Matrix([[]]);
     newMatrix.data = Array.from({ length: rows * cols }, () => 0);

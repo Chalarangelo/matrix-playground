@@ -29,6 +29,16 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     ]);
   });
 
+  it('fill', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new MatrixClass(data);
+    matrix.fill(0);
+    expect([...matrix]).toEqual([0, 0, 0, 0]);
+  });
+
   it('from', () => {
     const rows = 3;
     const cols = 4;

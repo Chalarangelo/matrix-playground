@@ -7,6 +7,14 @@ class Matrix {
     }
   }
 
+  fill(value) {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        this.set(i, j, value);
+      }
+    }
+  }
+
   checkIndex(i, j) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols)
       throw new RangeError('Index out of bounds');

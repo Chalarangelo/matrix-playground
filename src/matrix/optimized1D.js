@@ -1,6 +1,10 @@
 import Flat1D from './flat1D.js';
 
 class Optimized1D extends Flat1D {
+  fill(value) {
+    this.data.fill(value);
+  }
+
   add(matrix) {
     if (this.rows !== matrix.rows || this.cols !== matrix.cols)
       throw new Error('Matrix dimensions do not match');
