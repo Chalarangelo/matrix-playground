@@ -1,6 +1,8 @@
 import Matrix from '../src/matrix.js';
 import { bench, describe } from 'vitest';
 
+const defaultCandidates = ['Naive2D', 'Flat1D'];
+
 describe.each([
   [
     'from dimensions',
@@ -89,7 +91,9 @@ describe.each([
     },
     { iterations: 100 },
   ],
-])('%s', (_, benchmarkFn, options) => {
-  bench('Naive2D', benchmarkFn(Matrix.Naive2D), options);
-  bench('Flat1D', benchmarkFn(Matrix.Flat1D), options);
+])('%s', (_, benchmarkFn, options, candidates = defaultCandidates) => {
+  candidates.forEach(className => {
+    const MatrixClass = Matrix[className];
+    bench(className, benchmarkFn(MatrixClass), options);
+  });
 });
