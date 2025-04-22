@@ -99,4 +99,13 @@ describe.each([
     matrix1.subtract(matrix2);
     expect([...matrix1]).toEqual([4, 4, 4, 4]);
   });
+
+  it('should create a matrix from dimensions', () => {
+    const rows = 3;
+    const cols = 4;
+    const matrix = MatrixClass.from({ rows, cols });
+    expect(matrix.rows).toBe(rows);
+    expect(matrix.cols).toBe(cols);
+    expect([...matrix]).toEqual(Array.from({ length: rows * cols }, () => 0));
+  });
 });

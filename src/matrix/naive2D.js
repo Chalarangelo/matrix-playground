@@ -5,6 +5,16 @@ class Naive2D {
     this.cols = data[0].length;
   }
 
+  static from({ rows, cols }) {
+    const newMatrix = new Naive2D([[]]);
+    newMatrix.data = Array.from({ length: rows }, () =>
+      Array.from({ length: cols }, () => 0)
+    );
+    newMatrix.rows = rows;
+    newMatrix.cols = cols;
+    return newMatrix;
+  }
+
   *[Symbol.iterator]() {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {

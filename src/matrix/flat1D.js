@@ -5,6 +5,14 @@ class Flat1D {
     this.data = data.flat(Infinity);
   }
 
+  static from({ rows, cols }) {
+    const newMatrix = new Flat1D([[]]);
+    newMatrix.data = Array.from({ length: rows * cols }, () => 0);
+    newMatrix.rows = rows;
+    newMatrix.cols = cols;
+    return newMatrix;
+  }
+
   *[Symbol.iterator]() {
     for (let i = 0; i < this.rows * this.cols; i++) {
       yield this.data[i];

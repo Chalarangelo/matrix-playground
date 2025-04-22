@@ -3,6 +3,13 @@ import { bench, describe } from 'vitest';
 
 describe.each([
   [
+    'from dimensions',
+    MatrixClass => () => {
+      MatrixClass.from({ rows: 100, cols: 100 });
+    },
+    { iterations: 1_000 },
+  ],
+  [
     'iteration',
     MatrixClass => () => {
       const data = [
