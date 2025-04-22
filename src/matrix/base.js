@@ -98,6 +98,40 @@ class Matrix {
 
     return newMatrixSparse;
   }
+
+  minorSubmatrix(row, col) {
+    const newMatrixSparse = this.constructor.sparseFrom({
+      rows: this.rows - 1,
+      cols: this.cols - 1,
+    });
+
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        if (i !== row && j !== col) {
+          const newRow = i < row ? i : i - 1;
+          const newCol = j < col ? j : j - 1;
+          newMatrixSparse.set(newRow, newCol, this.get(i, j));
+        }
+      }
+    }
+
+    return newMatrixSparse;
+  }
+
+  submatrix(rowStart, colStart, rowEnd, colEnd) {
+    const newMatrixSparse = this.constructor.sparseFrom({
+      rows: rowEnd - rowStart + 1,
+      cols: colEnd - colStart + 1,
+    });
+
+    for (let i = rowStart; i <= rowEnd; i++) {
+      for (let j = colStart; j <= colEnd; j++) {
+        newMatrixSparse.set(i - rowStart, j - colStart, this.get(i, j));
+      }
+    }
+
+    return newMatrixSparse;
+  }
 }
 
 export default Matrix;

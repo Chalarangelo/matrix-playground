@@ -246,4 +246,53 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
       [3, 6],
     ]);
   });
+
+  it('minorSubmatrix', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    const matrix = new MatrixClass(data);
+    const result = matrix.minorSubmatrix(1, 1);
+    expect(asArray(result)).toEqual([
+      [1, 3],
+      [7, 9],
+    ]);
+  });
+
+  it('submatrix', () => {
+    const data = [
+      [1, 2, 3, 4],
+      [5, 6, 7, 8],
+      [9, 10, 11, 12],
+      [13, 14, 15, 16],
+    ];
+    const matrix = new MatrixClass(data);
+    const result = matrix.submatrix(0, 0, 1, 1);
+    expect(asArray(result)).toEqual([
+      [1, 2],
+      [5, 6],
+    ]);
+
+    const result2 = matrix.submatrix(2, 1, 3, 2);
+    expect(asArray(result2)).toEqual([
+      [10, 11],
+      [14, 15],
+    ]);
+
+    const result3 = matrix.submatrix(1, 2, 3, 3);
+    expect(asArray(result3)).toEqual([
+      [7, 8],
+      [11, 12],
+      [15, 16],
+    ]);
+    const result4 = matrix.submatrix(0, 0, 3, 3);
+    expect(asArray(result4)).toEqual([
+      [1, 2, 3, 4],
+      [5, 6, 7, 8],
+      [9, 10, 11, 12],
+      [13, 14, 15, 16],
+    ]);
+  });
 });

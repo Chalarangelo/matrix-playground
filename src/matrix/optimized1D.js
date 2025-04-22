@@ -76,6 +76,46 @@ class Matrix extends Flat1D {
 
     return newMatrixSparse;
   }
+
+  minorSubmatrix(row, col) {
+    const newMatrixSparse = this.constructor.sparseFrom({
+      rows: this.rows - 1,
+      cols: this.cols - 1,
+    });
+
+    for (let i = 0; i < this.data.length; i++) {
+      if (Math.floor(i / this.cols) === row || i % this.cols === col) continue;
+      newMatrixSparse.data[newMatrixSparse.data.length] = this.data[i];
+    }
+
+    return newMatrixSparse;
+  }
+
+  submatrix(rowStart, colStart, rowEnd, colEnd) {
+    const newMatrixSparse = this.constructor.sparseFrom({
+      rows: rowEnd - rowStart + 1,
+      cols: colEnd - colStart + 1,
+    });
+
+    for (
+      let i = rowStart * this.cols + colStart;
+      i <= rowEnd * this.cols + colEnd;
+      i++
+    ) {
+      const col = i % this.cols;
+      if (col < colStart) {
+        i += colStart - col - 1;
+        continue;
+      }
+
+      if (col > colEnd) {
+        i += this.cols - col - 1;
+        continue;
+      }
+      newMatrixSparse.data[newMatrixSparse.data.length] = this.data[i];
+    }
+    return newMatrixSparse;
+  }
 }
 
 export default Matrix;

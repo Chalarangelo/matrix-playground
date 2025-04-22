@@ -14,18 +14,7 @@ describe.each([
   [
     'iteration',
     MatrixClass => {
-      const data = [
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [4, 5, 6, 7, 8, 9, 1, 2, 3],
-        [7, 8, 9, 1, 2, 3, 4, 5, 6],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [4, 5, 6, 7, 8, 9, 1, 2, 3],
-        [7, 8, 9, 1, 2, 3, 4, 5, 6],
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [4, 5, 6, 7, 8, 9, 1, 2, 3],
-        [7, 8, 9, 1, 2, 3, 4, 5, 6],
-      ];
-      const matrix = new MatrixClass(data);
+      const matrix = MatrixClass.from({ rows: 10, cols: 10 });
       return () => {
         [...matrix];
       };
@@ -35,18 +24,8 @@ describe.each([
   [
     'addition',
     MatrixClass => {
-      const data1 = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-      ];
-      const data2 = [
-        [9, 8, 7],
-        [6, 5, 4],
-        [3, 2, 1],
-      ];
-      const matrix1 = new MatrixClass(data1);
-      const matrix2 = new MatrixClass(data2);
+      const matrix1 = MatrixClass.from({ rows: 3, cols: 3 });
+      const matrix2 = MatrixClass.from({ rows: 3, cols: 3 });
       return () => {
         matrix1.add(matrix2);
       };
@@ -57,19 +36,8 @@ describe.each([
   [
     'multiplication',
     MatrixClass => {
-      const data1 = [
-        [1, 0, 1],
-        [2, 1, 1],
-        [0, 1, 1],
-        [1, 1, 2],
-      ];
-      const data2 = [
-        [1, 2, 1],
-        [2, 3, 1],
-        [4, 2, 2],
-      ];
-      const matrix1 = new MatrixClass(data1);
-      const matrix2 = new MatrixClass(data2);
+      const matrix1 = MatrixClass.from({ rows: 4, cols: 3 });
+      const matrix2 = MatrixClass.from({ rows: 3, cols: 3 });
       return () => {
         matrix1.multiply(matrix2);
       };
@@ -79,12 +47,7 @@ describe.each([
   [
     'scalar multiplication',
     MatrixClass => {
-      const data = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-      ];
-      const matrix = new MatrixClass(data);
+      const matrix = MatrixClass.from({ rows: 20, cols: 20 });
       const scalar = 2;
       return () => {
         matrix.multiplyWithScalar(scalar);
@@ -96,12 +59,7 @@ describe.each([
   [
     'transpose',
     MatrixClass => {
-      const data = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-      ];
-      const matrix = new MatrixClass(data);
+      const matrix = MatrixClass.from({ rows: 100, cols: 100 });
       return () => {
         matrix.transpose();
       };
@@ -143,14 +101,31 @@ describe.each([
   [
     'column',
     MatrixClass => {
-      const data = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-      ];
-      const matrix = new MatrixClass(data);
+      const matrix = MatrixClass.from({ rows: 50, cols: 50 });
       return () => {
         matrix.col(1);
+      };
+    },
+    { iterations: 100 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
+  [
+    'minor submatrix',
+    MatrixClass => {
+      const matrix = MatrixClass.from({ rows: 50, cols: 50 });
+      return () => {
+        matrix.minorSubmatrix(1, 1);
+      };
+    },
+    { iterations: 100 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
+  [
+    'submatrix',
+    MatrixClass => {
+      const matrix = MatrixClass.from({ rows: 50, cols: 50 });
+      return () => {
+        matrix.submatrix(10, 10, 30, 30);
       };
     },
     { iterations: 100 },
