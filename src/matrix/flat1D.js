@@ -50,6 +50,16 @@ class Matrix extends BaseMatrix {
     return this.data[this.#index(i, j)];
   }
 
+  row(i) {
+    this.checkIndex(i, 0);
+    return this.data.slice(i * this.cols, (i + 1) * this.cols);
+  }
+
+  col(j) {
+    this.checkIndex(0, j);
+    return this.data.filter((_, index) => index % this.cols === j);
+  }
+
   set(i, j, value) {
     this.checkIndex(i, j);
     this.data[this.#index(i, j)] = value;

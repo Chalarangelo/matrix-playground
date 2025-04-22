@@ -41,6 +41,16 @@ class Matrix extends BaseMatrix {
     return this.data[i][j];
   }
 
+  row(i) {
+    this.checkIndex(i, 0);
+    return this.data[i];
+  }
+
+  col(j) {
+    this.checkIndex(0, j);
+    return this.data.map(row => row[j]);
+  }
+
   set(i, j, value) {
     this.checkIndex(i, j);
     this.data[i][j] = value;
