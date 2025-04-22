@@ -95,15 +95,31 @@ describe.each([
   [
     'scalar multiplication',
     MatrixClass => {
-      const data1 = [
+      const data = [
         [1, 2, 3],
         [4, 5, 6],
         [7, 8, 9],
       ];
-      const matrix = new MatrixClass(data1);
+      const matrix = new MatrixClass(data);
       const scalar = 2;
       return () => {
         matrix.multiplyWithScalar(scalar);
+      };
+    },
+    { iterations: 1_000 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
+  [
+    'transpose',
+    MatrixClass => {
+      const data = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      const matrix = new MatrixClass(data);
+      return () => {
+        matrix.transpose();
       };
     },
     { iterations: 1_000 },

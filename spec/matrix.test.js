@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 
 describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
   const MatrixClass = Matrix[className];
-  it('should iterate over the matrix elements', () => {
+  it('*[Symbol.iterator]', () => {
     const data = [
       [1, 2, 3],
       [4, 5, 6],
@@ -14,7 +14,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect(elements).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
-  it('should return the correct indexes', () => {
+  it('*indexes', () => {
     const data = [
       [1, 2],
       [3, 4],
@@ -29,7 +29,16 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     ]);
   });
 
-  it('should have the correct number of rows and columns', () => {
+  it('from', () => {
+    const rows = 3;
+    const cols = 4;
+    const matrix = MatrixClass.from({ rows, cols });
+    expect(matrix.rows).toBe(rows);
+    expect(matrix.cols).toBe(cols);
+    expect([...matrix]).toEqual(Array.from({ length: rows * cols }, () => 0));
+  });
+
+  it('rows & cols', () => {
     const data = [
       [1, 2],
       [3, 4],
@@ -39,7 +48,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect(matrix.cols).toBe(2);
   });
 
-  it('should get elements correctly', () => {
+  it('get', () => {
     const data = [
       [1, 2, 3],
       [4, 5, 6],
@@ -48,7 +57,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect(matrix.get(0, 1)).toBe(2);
   });
 
-  it('should set elements correctly', () => {
+  it('set', () => {
     const data = [
       [1, 2, 3],
       [4, 5, 6],
@@ -58,7 +67,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect(matrix.get(1, 1)).toBe(10);
   });
 
-  it('should throw an error for out-of-bounds access', () => {
+  it('checkIndex', () => {
     const data = [
       [1, 2, 3],
       [4, 5, 6],
@@ -68,7 +77,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect(() => matrix.set(0, 3, 10)).toThrow('Index out of bounds');
   });
 
-  it('should add the matrix correctly', () => {
+  it('add', () => {
     const data1 = [
       [1, 2],
       [3, 4],
@@ -83,7 +92,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect([...result]).toEqual([6, 8, 10, 12]);
   });
 
-  it('should subtract the matrix correctly', () => {
+  it('subtract', () => {
     const data1 = [
       [5, 6],
       [7, 8],
@@ -98,7 +107,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect([...result]).toEqual([4, 4, 4, 4]);
   });
 
-  it('should multiply the matrix correctly', () => {
+  it('multiply', () => {
     const data1 = [
       [1, 0, 1],
       [2, 1, 1],
@@ -116,7 +125,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect([...result]).toEqual([5, 4, 3, 8, 9, 5, 6, 5, 3, 11, 9, 6]);
   });
 
-  it('should multiply the matrix with a vector correctly', () => {
+  it('multiply with vector', () => {
     const data1 = [
       [1, 2, 3],
       [4, 5, 6],
@@ -128,16 +137,7 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect([...result]).toEqual([14, 32]);
   });
 
-  it('should create a matrix from dimensions', () => {
-    const rows = 3;
-    const cols = 4;
-    const matrix = MatrixClass.from({ rows, cols });
-    expect(matrix.rows).toBe(rows);
-    expect(matrix.cols).toBe(cols);
-    expect([...matrix]).toEqual(Array.from({ length: rows * cols }, () => 0));
-  });
-
-  it('should multiply with scalar correctly', () => {
+  it('multiplyWithScalar', () => {
     const data = [
       [1, 2],
       [3, 4],
@@ -146,5 +146,17 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     const matrix = new MatrixClass(data);
     const result = matrix.multiplyWithScalar(scalar);
     expect([...result]).toEqual([2, 4, 6, 8]);
+  });
+
+  it('transpose', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new MatrixClass(data);
+    const result = matrix.transpose();
+    expect([...result]).toEqual([1, 4, 2, 5, 3, 6]);
+    expect(result.rows).toBe(3);
+    expect(result.cols).toBe(2);
   });
 });

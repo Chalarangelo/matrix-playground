@@ -66,6 +66,18 @@ class Matrix {
 
     return newMatrixSparse;
   }
+
+  transpose() {
+    const newMatrixSparse = this.constructor.sparseFrom({
+      rows: this.cols,
+      cols: this.rows,
+    });
+
+    for (let [i, j] of this.indexes())
+      newMatrixSparse.set(j, i, this.get(i, j));
+
+    return newMatrixSparse;
+  }
 }
 
 export default Matrix;
