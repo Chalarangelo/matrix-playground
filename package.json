@@ -1,0 +1,28 @@
+{
+  "name": "matrix-playground",
+  "version": "1.0.0",
+  "description": "JS matrix playground repository",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "prettier": "^3.5.3",
+    "tinybench": "^4.0.1",
+    "vite": "^6.3.2",
+    "vitest": "^3.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chalarangelo/matrix-playground.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Chalarangelo/matrix-playground/issues"
+  },
+  "homepage": "https://github.com/Chalarangelo/matrix-playground#readme"
+}
