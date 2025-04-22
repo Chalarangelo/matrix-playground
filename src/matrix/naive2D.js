@@ -1,4 +1,4 @@
-class Naive2D {
+class Matrix {
   constructor(data) {
     this.data = data;
     this.rows = data.length;
@@ -6,7 +6,7 @@ class Naive2D {
   }
 
   static from({ rows, cols }) {
-    const newMatrix = new Naive2D([[]]);
+    const newMatrix = new Matrix([[]]);
     newMatrix.data = Array.from({ length: rows }, () =>
       Array.from({ length: cols }, () => 0)
     );
@@ -63,4 +63,4 @@ class Naive2D {
   }
 }
 
-export default Naive2D;
+export default Matrix;

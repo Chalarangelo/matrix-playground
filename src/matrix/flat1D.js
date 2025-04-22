@@ -1,4 +1,4 @@
-class Flat1D {
+class Matrix {
   constructor(data) {
     this.rows = data.length;
     this.cols = data[0].length;
@@ -6,7 +6,7 @@ class Flat1D {
   }
 
   static from({ rows, cols }) {
-    const newMatrix = new Flat1D([[]]);
+    const newMatrix = new Matrix([[]]);
     newMatrix.data = Array.from({ length: rows * cols }, () => 0);
     newMatrix.rows = rows;
     newMatrix.cols = cols;
@@ -59,4 +59,4 @@ class Flat1D {
   }
 }
 
-export default Flat1D;
+export default Matrix;
