@@ -35,6 +35,14 @@ class Naive2D {
     this.#checkIndex(i, j);
     this.data[i][j] = value;
   }
+
+  add(matrix) {
+    if (this.rows !== matrix.rows || this.cols !== matrix.cols)
+      throw new Error('Matrix dimensions do not match');
+
+    for (let [i, j] of this.indexes())
+      this.set(i, j, this.get(i, j) + matrix.get(i, j));
+  }
 }
 
 export default Naive2D;

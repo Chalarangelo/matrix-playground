@@ -69,4 +69,19 @@ describe.each([
     expect(() => matrix.get(2, 0)).toThrow('Index out of bounds');
     expect(() => matrix.set(0, 3, 10)).toThrow('Index out of bounds');
   });
+
+  it('should add the matrix correctly', () => {
+    const data1 = [
+      [1, 2],
+      [3, 4],
+    ];
+    const data2 = [
+      [5, 6],
+      [7, 8],
+    ];
+    const matrix1 = new MatrixClass(data1);
+    const matrix2 = new MatrixClass(data2);
+    matrix1.add(matrix2);
+    expect([...matrix1]).toEqual([6, 8, 10, 12]);
+  });
 });
