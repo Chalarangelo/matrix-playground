@@ -13,9 +13,15 @@ describe.each([
     'iteration',
     MatrixClass => () => {
       const data = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
+        [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        [4, 5, 6, 7, 8, 9, 1, 2, 3],
+        [7, 8, 9, 1, 2, 3, 4, 5, 6],
+        [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        [4, 5, 6, 7, 8, 9, 1, 2, 3],
+        [7, 8, 9, 1, 2, 3, 4, 5, 6],
+        [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        [4, 5, 6, 7, 8, 9, 1, 2, 3],
+        [7, 8, 9, 1, 2, 3, 4, 5, 6],
       ];
       const matrix = new MatrixClass(data);
       [...matrix];
@@ -54,6 +60,26 @@ describe.each([
       matrix1.add(matrix2);
     },
     { iterations: 1_000 },
+  ],
+  [
+    'multiplication',
+    MatrixClass => () => {
+      const data1 = [
+        [1, 0, 1],
+        [2, 1, 1],
+        [0, 1, 1],
+        [1, 1, 2],
+      ];
+      const data2 = [
+        [1, 2, 1],
+        [2, 3, 1],
+        [4, 2, 2],
+      ];
+      const matrix1 = new MatrixClass(data1);
+      const matrix2 = new MatrixClass(data2);
+      matrix1.multiply(matrix2);
+    },
+    { iterations: 100 },
   ],
 ])('%s', (_, benchmarkFn, options) => {
   bench('Naive2D', benchmarkFn(Matrix.Naive2D), options);

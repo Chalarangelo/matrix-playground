@@ -100,6 +100,24 @@ describe.each([
     expect([...result]).toEqual([4, 4, 4, 4]);
   });
 
+  it('should multiply the matrix correctly', () => {
+    const data1 = [
+      [1, 0, 1],
+      [2, 1, 1],
+      [0, 1, 1],
+      [1, 1, 2],
+    ];
+    const data2 = [
+      [1, 2, 1],
+      [2, 3, 1],
+      [4, 2, 2],
+    ];
+    const a = new MatrixClass(data1);
+    const b = new MatrixClass(data2);
+    const result = a.multiply(b);
+    expect([...result]).toEqual([5, 4, 3, 8, 9, 5, 6, 5, 3, 11, 9, 6]);
+  });
+
   it('should create a matrix from dimensions', () => {
     const rows = 3;
     const cols = 4;
