@@ -84,4 +84,19 @@ describe.each([
     matrix1.add(matrix2);
     expect([...matrix1]).toEqual([6, 8, 10, 12]);
   });
+
+  it('should subtract the matrix correctly', () => {
+    const data1 = [
+      [5, 6],
+      [7, 8],
+    ];
+    const data2 = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix1 = new MatrixClass(data1);
+    const matrix2 = new MatrixClass(data2);
+    matrix1.subtract(matrix2);
+    expect([...matrix1]).toEqual([4, 4, 4, 4]);
+  });
 });

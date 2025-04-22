@@ -43,6 +43,14 @@ class Naive2D {
     for (let [i, j] of this.indexes())
       this.set(i, j, this.get(i, j) + matrix.get(i, j));
   }
+
+  subtract(matrix) {
+    if (this.rows !== matrix.rows || this.cols !== matrix.cols)
+      throw new Error('Matrix dimensions do not match');
+
+    for (let [i, j] of this.indexes())
+      this.set(i, j, this.get(i, j) - matrix.get(i, j));
+  }
 }
 
 export default Naive2D;
