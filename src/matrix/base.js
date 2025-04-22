@@ -57,6 +57,15 @@ class Matrix {
 
     return newMatrixSparse;
   }
+
+  multiplyWithScalar(scalar) {
+    const newMatrixSparse = this.constructor.sparseFrom(this);
+
+    for (let [i, j] of this.indexes())
+      newMatrixSparse.set(i, j, this.get(i, j) * scalar);
+
+    return newMatrixSparse;
+  }
 }
 
 export default Matrix;

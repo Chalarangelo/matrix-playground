@@ -136,4 +136,15 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect(matrix.cols).toBe(cols);
     expect([...matrix]).toEqual(Array.from({ length: rows * cols }, () => 0));
   });
+
+  it('should multiply with scalar correctly', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const scalar = 2;
+    const matrix = new MatrixClass(data);
+    const result = matrix.multiplyWithScalar(scalar);
+    expect([...result]).toEqual([2, 4, 6, 8]);
+  });
 });

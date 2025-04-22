@@ -92,6 +92,23 @@ describe.each([
     },
     { iterations: 100 },
   ],
+  [
+    'scalar multiplication',
+    MatrixClass => {
+      const data1 = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      const matrix = new MatrixClass(data1);
+      const scalar = 2;
+      return () => {
+        matrix.multiplyWithScalar(scalar);
+      };
+    },
+    { iterations: 1_000 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
 ])('%s', (_, benchmarkFn, options, candidates = defaultCandidates) => {
   candidates.forEach(className => {
     const MatrixClass = Matrix[className];
