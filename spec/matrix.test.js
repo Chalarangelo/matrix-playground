@@ -295,4 +295,33 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
       [13, 14, 15, 16],
     ]);
   });
+
+  it('determinant', () => {
+    const data2by2 = [
+      [3, 7],
+      [1, -4],
+    ];
+    const matrix2by2 = new MatrixClass(data2by2);
+    const result2by2 = matrix2by2.determinant();
+    expect(result2by2).toBe(-19);
+
+    const data3by3 = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    const matrix3by3 = new MatrixClass(data3by3);
+    const result3by3 = matrix3by3.determinant();
+    expect(result3by3).toBe(0);
+
+    const data4by4 = [
+      [1, 3, 5, 9],
+      [1, 3, 1, 7],
+      [4, 3, 9, 7],
+      [5, 2, 0, 9],
+    ];
+    const matrix4by4 = new MatrixClass(data4by4);
+    const result4by4 = matrix4by4.determinant();
+    expect(result4by4).toBe(-376);
+  });
 });

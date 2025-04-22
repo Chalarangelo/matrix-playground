@@ -116,6 +116,22 @@ class Matrix extends Flat1D {
     }
     return newMatrixSparse;
   }
+
+  determinant() {
+    if (this.rows !== this.cols)
+      throw new Error('Determinant is only defined for square matrices');
+
+    if (this.rows === 1) return this.data[0];
+    if (this.rows === 2)
+      return this.data[0] * this.data[3] - this.data[1] * this.data[2];
+
+    let det = 0;
+    for (let j = 0; j < this.cols; j++) {
+      const subMatrix = this.minorSubmatrix(0, j);
+      det += (j % 2 === 0 ? 1 : -1) * this.data[j] * subMatrix.determinant();
+    }
+    return det;
+  }
 }
 
 export default Matrix;

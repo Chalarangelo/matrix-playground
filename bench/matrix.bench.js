@@ -131,6 +131,17 @@ describe.each([
     { iterations: 100 },
     ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
+  [
+    'determinant',
+    MatrixClass => {
+      const matrix = MatrixClass.from({ rows: 4, cols: 4 });
+      return () => {
+        matrix.determinant();
+      };
+    },
+    { iterations: 100 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
 ])('%s', (_, benchmarkFn, options, candidates = defaultCandidates) => {
   candidates.forEach(className => {
     const MatrixClass = Matrix[className];

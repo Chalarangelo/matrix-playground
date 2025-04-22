@@ -132,6 +132,22 @@ class Matrix {
 
     return newMatrixSparse;
   }
+
+  determinant() {
+    if (this.rows !== this.cols)
+      throw new Error('Determinant is only defined for square matrices');
+
+    if (this.rows === 1) return this.get(0, 0);
+    if (this.rows === 2)
+      return this.get(0, 0) * this.get(1, 1) - this.get(0, 1) * this.get(1, 0);
+
+    let det = 0;
+    for (let j = 0; j < this.cols; j++) {
+      const subMatrix = this.minorSubmatrix(0, j);
+      det += (j % 2 === 0 ? 1 : -1) * this.get(0, j) * subMatrix.determinant();
+    }
+    return det;
+  }
 }
 
 export default Matrix;
