@@ -68,6 +68,7 @@ describe.each([
       };
     },
     { iterations: 1_000 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
   [
     'multiplication',
