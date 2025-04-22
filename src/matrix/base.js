@@ -40,7 +40,10 @@ class Matrix {
     if (this.cols !== matrix.rows)
       throw new Error('Matrix dimensions do not match');
 
-    const newMatrixSparse = this.constructor.sparseFrom(this);
+    const newMatrixSparse = this.constructor.sparseFrom({
+      rows: this.rows,
+      cols: matrix.cols,
+    });
 
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < matrix.cols; j++) {

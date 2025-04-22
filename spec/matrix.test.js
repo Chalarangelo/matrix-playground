@@ -116,6 +116,18 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect([...result]).toEqual([5, 4, 3, 8, 9, 5, 6, 5, 3, 11, 9, 6]);
   });
 
+  it('should multiply the matrix with a vector correctly', () => {
+    const data1 = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const data2 = [[1], [2], [3]];
+    const a = new MatrixClass(data1);
+    const b = new MatrixClass(data2);
+    const result = a.multiply(b);
+    expect([...result]).toEqual([14, 32]);
+  });
+
   it('should create a matrix from dimensions', () => {
     const rows = 3;
     const cols = 4;
