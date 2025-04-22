@@ -1,8 +1,26 @@
 import Flat1D from './flat1D.js';
 
-class Optimized1D extends Flat1D {
+class Matrix extends Flat1D {
   fill(value) {
     this.data.fill(value);
+  }
+
+  static zeroes({ rows, cols }) {
+    const newMatrix = new Matrix([[]]);
+    newMatrix.data = Array.from({ length: rows * cols }).fill(0);
+    newMatrix.rows = rows;
+    newMatrix.cols = cols;
+    return newMatrix;
+  }
+
+  static identity({ size }) {
+    const newMatrix = new Matrix([[]]);
+    newMatrix.data = Array.from({ length: size * size }, (_, i) =>
+      i % (size + 1) === 0 ? 1 : 0
+    );
+    newMatrix.rows = size;
+    newMatrix.cols = size;
+    return newMatrix;
   }
 
   add(matrix) {
@@ -51,4 +69,4 @@ class Optimized1D extends Flat1D {
   }
 }
 
-export default Optimized1D;
+export default Matrix;

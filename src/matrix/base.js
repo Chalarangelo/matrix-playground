@@ -15,6 +15,18 @@ class Matrix {
     }
   }
 
+  static zeroes({ rows, cols }) {
+    return this.from({ rows, cols });
+  }
+
+  static identity({ size }) {
+    const newMatrix = this.zeroes({ rows: size, cols: size });
+    for (let i = 0; i < size; i++) {
+      newMatrix.set(i, i, 1);
+    }
+    return newMatrix;
+  }
+
   checkIndex(i, j) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols)
       throw new RangeError('Index out of bounds');

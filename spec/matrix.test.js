@@ -48,6 +48,23 @@ describe.each(['Naive2D', 'Flat1D', 'Optimized1D'])('Matrix %s', className => {
     expect([...matrix]).toEqual(Array.from({ length: rows * cols }, () => 0));
   });
 
+  it('zeroes', () => {
+    const rows = 3;
+    const cols = 4;
+    const matrix = MatrixClass.zeroes({ rows, cols });
+    expect(matrix.rows).toBe(rows);
+    expect(matrix.cols).toBe(cols);
+    expect([...matrix]).toEqual(Array.from({ length: rows * cols }, () => 0));
+  });
+
+  it('identity', () => {
+    const size = 3;
+    const matrix = MatrixClass.identity({ size });
+    expect(matrix.rows).toBe(size);
+    expect(matrix.cols).toBe(size);
+    expect([...matrix]).toEqual([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+  });
+
   it('rows & cols', () => {
     const data = [
       [1, 2],

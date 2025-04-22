@@ -12,6 +12,13 @@ class Matrix extends BaseMatrix {
     for (let i = 0; i < this.rows * this.cols; i++) this.data[i] = value;
   }
 
+  static identity({ size }) {
+    const newMatrix = this.zeroes({ rows: size, cols: size });
+    for (let i = 0; i < size; i++) newMatrix.data[i * size + i] = 1;
+
+    return newMatrix;
+  }
+
   static from({ rows, cols }) {
     const newMatrix = new Matrix([[]]);
     newMatrix.data = Array.from({ length: rows * cols }, () => 0);

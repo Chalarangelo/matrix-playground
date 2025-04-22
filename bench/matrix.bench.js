@@ -33,22 +33,6 @@ describe.each([
     { iterations: 10_000 },
   ],
   [
-    'getter/setter',
-    MatrixClass => {
-      const data = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-      ];
-      const matrix = new MatrixClass(data);
-      return () => {
-        const value = matrix.get(1, 1);
-        matrix.set(1, 1, value + 1);
-      };
-    },
-    { iterations: 1_000 },
-  ],
-  [
     'addition',
     MatrixClass => {
       const data1 = [
@@ -131,6 +115,26 @@ describe.each([
       const matrix = MatrixClass.from({ rows: 100, cols: 100 });
       return () => {
         matrix.fill(1);
+      };
+    },
+    { iterations: 1_000 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
+  [
+    'zeroes',
+    MatrixClass => {
+      return () => {
+        MatrixClass.zeroes({ rows: 100, cols: 100 });
+      };
+    },
+    { iterations: 1_000 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
+  [
+    'identity',
+    MatrixClass => {
+      return () => {
+        MatrixClass.identity({ size: 100 });
       };
     },
     { iterations: 1_000 },
