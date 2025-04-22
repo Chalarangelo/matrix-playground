@@ -9,7 +9,7 @@ describe.each([
     MatrixClass => () => {
       MatrixClass.from({ rows: 100, cols: 100 });
     },
-    { iterations: 1_000 },
+    { iterations: 500 },
   ],
   [
     'iteration',
@@ -30,7 +30,7 @@ describe.each([
         [...matrix];
       };
     },
-    { iterations: 10_000 },
+    { iterations: 1_000 },
   ],
   [
     'addition',
@@ -51,7 +51,7 @@ describe.each([
         matrix1.add(matrix2);
       };
     },
-    { iterations: 1_000 },
+    { iterations: 200 },
     ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
   [
@@ -74,7 +74,7 @@ describe.each([
         matrix1.multiply(matrix2);
       };
     },
-    { iterations: 100 },
+    { iterations: 250 },
   ],
   [
     'scalar multiplication',
@@ -90,7 +90,7 @@ describe.each([
         matrix.multiplyWithScalar(scalar);
       };
     },
-    { iterations: 1_000 },
+    { iterations: 250 },
     ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
   [
@@ -106,7 +106,7 @@ describe.each([
         matrix.transpose();
       };
     },
-    { iterations: 1_000 },
+    { iterations: 250 },
     ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
   [
@@ -117,7 +117,7 @@ describe.each([
         matrix.fill(1);
       };
     },
-    { iterations: 1_000 },
+    { iterations: 100 },
     ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
   [
@@ -127,7 +127,7 @@ describe.each([
         MatrixClass.zeroes({ rows: 100, cols: 100 });
       };
     },
-    { iterations: 1_000 },
+    { iterations: 100 },
     ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
   [
@@ -137,7 +137,23 @@ describe.each([
         MatrixClass.identity({ size: 100 });
       };
     },
-    { iterations: 1_000 },
+    { iterations: 100 },
+    ['Naive2D', 'Flat1D', 'Optimized1D'],
+  ],
+  [
+    'column',
+    MatrixClass => {
+      const data = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+      ];
+      const matrix = new MatrixClass(data);
+      return () => {
+        matrix.col(1);
+      };
+    },
+    { iterations: 100 },
     ['Naive2D', 'Flat1D', 'Optimized1D'],
   ],
 ])('%s', (_, benchmarkFn, options, candidates = defaultCandidates) => {

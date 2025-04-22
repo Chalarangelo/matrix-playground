@@ -23,6 +23,15 @@ class Matrix extends Flat1D {
     return newMatrix;
   }
 
+  col(j) {
+    this.checkIndex(0, j);
+    const col = [];
+    for (let i = j; i < this.data.length; i += this.cols)
+      col[col.length] = this.data[i];
+
+    return col;
+  }
+
   add(matrix) {
     if (this.rows !== matrix.rows || this.cols !== matrix.cols)
       throw new Error('Matrix dimensions do not match');
