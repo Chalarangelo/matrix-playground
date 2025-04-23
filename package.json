@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
-    "benchmark": "vitest bench",
     "repl": "node ./src/repl.js"
   },
   "devDependencies": {
