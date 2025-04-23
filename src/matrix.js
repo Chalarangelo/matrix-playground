@@ -7,9 +7,7 @@ class Matrix {
     } else {
       this.rows = data.rows;
       this.cols = data.cols;
-      this.data = Array.from({ length: this.rows }, () =>
-        Array.from({ length: this.cols }, () => 0)
-      );
+      this.fill(0);
     }
   }
 
@@ -28,27 +26,21 @@ class Matrix {
   }
 
   static identity({ size }) {
-    const data = Array.from({ length: size }, (_, i) =>
-      Array.from({ length: size }, (_, j) => (i === j ? 1 : 0))
+    return new Matrix(
+      Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => (i === j ? 1 : 0))
+      )
     );
-
-    return new Matrix(data);
   }
 
   *indexes() {
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        yield [i, j];
-      }
-    }
+    for (let i = 0; i < this.rows; i++)
+      for (let j = 0; j < this.cols; j++) yield [i, j];
   }
 
   *[Symbol.iterator]() {
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        yield this.data[i][j];
-      }
-    }
+    for (let i = 0; i < this.rows; i++)
+      for (let j = 0; j < this.cols; j++) yield this.data[i][j];
   }
 
   checkIndex(i, j) {
