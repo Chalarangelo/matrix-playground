@@ -698,6 +698,26 @@ class Matrix {
 
     return new Matrix(result);
   }
+
+  // String
+
+  toString() {
+    return this.data.toString();
+  }
+
+  toLocaleString() {
+    return this.data.toLocaleString();
+  }
+
+  // JSON
+
+  toJSON() {
+    return JSON.stringify(this.data);
+  }
+
+  static fromJSON(json) {
+    return new Matrix(JSON.parse(json));
+  }
 }
 
 export default Matrix;

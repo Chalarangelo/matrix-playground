@@ -980,4 +980,24 @@ describe('Matrix', () => {
       [1, 2, 3],
     ]);
   });
+
+  it('toJSON', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.toJSON();
+    expect(result).toEqual(JSON.stringify(data));
+  });
+
+  it('fromJSON', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const json = JSON.stringify(data);
+    const matrix = Matrix.fromJSON(json);
+    expect(asArray(matrix)).toEqual(data);
+  });
 });
