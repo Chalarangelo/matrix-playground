@@ -10,6 +10,7 @@ describe.each([
       MatrixClass.from({ rows: 100, cols: 100 });
     },
     { iterations: 500 },
+    ['Naive2D', 'Optimized2D', 'Flat1D'],
   ],
   [
     'iteration',
@@ -20,6 +21,7 @@ describe.each([
       };
     },
     { iterations: 1_000 },
+    ['Naive2D', 'Optimized2D', 'Flat1D'],
   ],
   [
     'addition',
@@ -31,7 +33,7 @@ describe.each([
       };
     },
     { iterations: 200 },
-    ['Naive2D', 'Flat1D', 'Optimized1D'],
+    ['Naive2D', 'Optimized2D', 'Flat1D', 'Optimized1D'],
   ],
   [
     'multiplication',
@@ -43,6 +45,7 @@ describe.each([
       };
     },
     { iterations: 250 },
+    ['Naive2D', 'Optimized2D', 'Flat1D'],
   ],
   [
     'scalar multiplication',
@@ -54,7 +57,7 @@ describe.each([
       };
     },
     { iterations: 250 },
-    ['Naive2D', 'Flat1D', 'Optimized1D'],
+    ['Naive2D', 'Optimized2D', 'Flat1D', 'Optimized1D'],
   ],
   [
     'transpose',
@@ -65,7 +68,7 @@ describe.each([
       };
     },
     { iterations: 250 },
-    ['Naive2D', 'Flat1D', 'Optimized1D'],
+    ['Naive2D', 'Optimized2D', 'Flat1D', 'Optimized1D'],
   ],
   [
     'fill',
@@ -118,7 +121,7 @@ describe.each([
       };
     },
     { iterations: 100 },
-    ['Naive2D', 'Flat1D', 'Optimized1D'],
+    ['Naive2D', 'Optimized2D', 'Flat1D', 'Optimized1D'],
   ],
   [
     'submatrix',
@@ -129,7 +132,7 @@ describe.each([
       };
     },
     { iterations: 100 },
-    ['Naive2D', 'Flat1D', 'Optimized1D'],
+    ['Naive2D', 'Optimized2D', 'Flat1D', 'Optimized1D'],
   ],
   [
     'determinant',
@@ -140,7 +143,7 @@ describe.each([
       };
     },
     { iterations: 100 },
-    ['Naive2D', 'Flat1D', 'Optimized1D'],
+    ['Naive2D', 'Optimized2D', 'Flat1D', 'Optimized1D'],
   ],
 ])('%s', (_, benchmarkFn, options, candidates = defaultCandidates) => {
   candidates.forEach(className => {
