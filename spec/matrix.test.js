@@ -40,6 +40,32 @@ describe('Matrix', () => {
     ]);
   });
 
+  it('*values', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    const matrix = new Matrix(data);
+    const elements = Array.from(matrix);
+    expect(elements).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  it('*entries', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const entries = Array.from(matrix.entries());
+    expect(entries).toEqual([
+      [0, 0, 1],
+      [0, 1, 2],
+      [1, 0, 3],
+      [1, 1, 4],
+    ]);
+  });
+
   it('fill', () => {
     const data = [
       [1, 2],
@@ -322,5 +348,65 @@ describe('Matrix', () => {
     const matrix4by4 = new Matrix(data4by4);
     const result4by4 = matrix4by4.determinant();
     expect(result4by4).toBe(-376);
+  });
+
+  it('every', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.every(value => value > 0);
+    expect(result).toBe(true);
+  });
+
+  it('some', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.some(value => value > 5);
+    expect(result).toBe(true);
+  });
+
+  it('find', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.find(value => value > 4);
+    expect(result).toEqual(5);
+  });
+
+  it('findIndex', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.findIndex(value => value > 4);
+    expect(result).toEqual([1, 1]);
+  });
+
+  it('findLast', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.findLast(value => value > 4);
+    expect(result).toEqual(6);
+  });
+
+  it('findLastIndex', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.findLastIndex(value => value > 4);
+    expect(result).toEqual([1, 2]);
   });
 });

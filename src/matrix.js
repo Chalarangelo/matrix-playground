@@ -11,11 +11,7 @@ class Matrix {
     }
   }
 
-  fill(value) {
-    this.data = Array.from({ length: this.rows }, () =>
-      Array.from({ length: this.cols }, () => value)
-    );
-  }
+  // Static initializers
 
   static from({ rows, cols }) {
     return new Matrix({ rows, cols });
@@ -33,9 +29,20 @@ class Matrix {
     );
   }
 
+  // Iterators
+
   *indexes() {
     for (let i = 0; i < this.rows; i++)
       for (let j = 0; j < this.cols; j++) yield [i, j];
+  }
+
+  *values() {
+    yield* this[Symbol.iterator]();
+  }
+
+  *entries() {
+    for (let i = 0; i < this.rows; i++)
+      for (let j = 0; j < this.cols; j++) yield [i, j, this.data[i][j]];
   }
 
   *[Symbol.iterator]() {
@@ -43,10 +50,22 @@ class Matrix {
       for (let j = 0; j < this.cols; j++) yield this.data[i][j];
   }
 
+  // Fill
+
+  fill(value) {
+    this.data = Array.from({ length: this.rows }, () =>
+      Array.from({ length: this.cols }, () => value)
+    );
+  }
+
+  // Out of bounds check
+
   checkIndex(i, j) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols)
       throw new RangeError('Index out of bounds');
   }
+
+  // Getters and Setters
 
   get(i, j) {
     this.checkIndex(i, j);
@@ -67,6 +86,8 @@ class Matrix {
     this.checkIndex(0, j);
     return this.data.map(row => row[j]);
   }
+
+  // Basic math operations
 
   add(matrix) {
     if (this.rows !== matrix.rows || this.cols !== matrix.cols)
@@ -113,6 +134,8 @@ class Matrix {
     return new Matrix(this.data.map(row => row.map(value => value * scalar)));
   }
 
+  // Transpose
+
   transpose() {
     const result = [];
 
@@ -125,6 +148,8 @@ class Matrix {
 
     return new Matrix(result);
   }
+
+  // Determinant and Submatrices
 
   minorSubmatrix(row, col) {
     const result = [];
@@ -175,6 +200,52 @@ class Matrix {
     }
 
     return det;
+  }
+
+  // Predicate matching
+
+  every(callback) {
+    for (let [i, j, value] of this.entries())
+      if (!callback(value, i, j)) return false;
+
+    return true;
+  }
+
+  some(callback) {
+    for (let [i, j, value] of this.entries())
+      if (callback(value, i, j)) return true;
+
+    return false;
+  }
+
+  find(callback) {
+    for (let [i, j, value] of this.entries())
+      if (callback(value, i, j)) return value;
+
+    return undefined;
+  }
+
+  findIndex(callback) {
+    for (let [i, j, value] of this.entries())
+      if (callback(value, i, j)) return [i, j];
+
+    return undefined;
+  }
+
+  findLast(callback) {
+    for (let i = this.rows - 1; i >= 0; i--)
+      for (let j = this.cols - 1; j >= 0; j--)
+        if (callback(this.data[i][j], i, j)) return this.data[i][j];
+
+    return undefined;
+  }
+
+  findLastIndex(callback) {
+    for (let i = this.rows - 1; i >= 0; i--)
+      for (let j = this.cols - 1; j >= 0; j--)
+        if (callback(this.data[i][j], i, j)) return [i, j];
+
+    return undefined;
   }
 }
 
