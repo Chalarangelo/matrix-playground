@@ -206,28 +206,28 @@ class Matrix {
 
   every(callback) {
     for (let [i, j, value] of this.entries())
-      if (!callback(value, i, j)) return false;
+      if (!callback(value, [i, j], this)) return false;
 
     return true;
   }
 
   some(callback) {
     for (let [i, j, value] of this.entries())
-      if (callback(value, i, j)) return true;
+      if (callback(value, [i, j], this)) return true;
 
     return false;
   }
 
   find(callback) {
     for (let [i, j, value] of this.entries())
-      if (callback(value, i, j)) return value;
+      if (callback(value, [i, j], this)) return value;
 
     return undefined;
   }
 
   findIndex(callback) {
     for (let [i, j, value] of this.entries())
-      if (callback(value, i, j)) return [i, j];
+      if (callback(value, [i, j], this)) return [i, j];
 
     return undefined;
   }
@@ -235,7 +235,7 @@ class Matrix {
   findLast(callback) {
     for (let i = this.rows - 1; i >= 0; i--)
       for (let j = this.cols - 1; j >= 0; j--)
-        if (callback(this.data[i][j], i, j)) return this.data[i][j];
+        if (callback(this.data[i][j], [i, j], this)) return this.data[i][j];
 
     return undefined;
   }
@@ -243,9 +243,68 @@ class Matrix {
   findLastIndex(callback) {
     for (let i = this.rows - 1; i >= 0; i--)
       for (let j = this.cols - 1; j >= 0; j--)
-        if (callback(this.data[i][j], i, j)) return [i, j];
+        if (callback(this.data[i][j], [i, j], this)) return [i, j];
 
     return undefined;
+  }
+
+  includes(value) {
+    for (let val of this) if (val === value) return true;
+
+    return false;
+  }
+
+  indexOf(value) {
+    for (let [i, j, val] of this.entries()) if (val === value) return [i, j];
+
+    return undefined;
+  }
+
+  lastIndexOf(value) {
+    for (let i = this.rows - 1; i >= 0; i--)
+      for (let j = this.cols - 1; j >= 0; j--)
+        if (this.data[i][j] === value) return [i, j];
+
+    return undefined;
+  }
+
+  // Mapping and reducing
+
+  forEach(callback) {
+    for (let [i, j, value] of this.entries()) callback(value, [i, j], this);
+  }
+
+  map(callback) {
+    const result = [];
+
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      for (let j = 0; j < this.cols; j++) {
+        result[i][j] = callback(this.data[i][j], [i, j], this);
+      }
+    }
+
+    return new Matrix(result);
+  }
+
+  reduce(callback, initialValue) {
+    let accumulator = initialValue;
+
+    for (let [i, j, value] of this.entries()) {
+      accumulator = callback(accumulator, value, [i, j], this);
+    }
+
+    return accumulator;
+  }
+
+  reduceRight(callback, initialValue) {
+    let accumulator = initialValue;
+
+    for (let i = this.rows - 1; i >= 0; i--)
+      for (let j = this.cols - 1; j >= 0; j--)
+        accumulator = callback(accumulator, this.data[i][j], [i, j], this);
+
+    return accumulator;
   }
 }
 

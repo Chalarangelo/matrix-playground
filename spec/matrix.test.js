@@ -409,4 +409,86 @@ describe('Matrix', () => {
     const result = matrix.findLastIndex(value => value > 4);
     expect(result).toEqual([1, 2]);
   });
+
+  it('includes', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.includes(5);
+    expect(result).toBe(true);
+  });
+
+  it('indexOf', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.indexOf(5);
+    expect(result).toEqual([1, 1]);
+  });
+
+  it('lastIndexOf', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 5, 9],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.lastIndexOf(5);
+    expect(result).toEqual([2, 1]);
+  });
+
+  it('forEach', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const result = [];
+    matrix.forEach((value, [i, j]) => {
+      result.push([i, j, value]);
+    });
+    expect(result).toEqual([
+      [0, 0, 1],
+      [0, 1, 2],
+      [1, 0, 3],
+      [1, 1, 4],
+    ]);
+  });
+
+  it('map', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.map(value => value * 2);
+    expect(asArray(result)).toEqual([
+      [2, 4],
+      [6, 8],
+    ]);
+  });
+
+  it('reduce', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.reduce((acc, value) => acc + value, 0);
+    expect(result).toBe(10);
+  });
+
+  it('reduceRight', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.reduceRight((acc, value) => acc + value, '');
+    expect(result).toBe('4321');
+  });
 });
