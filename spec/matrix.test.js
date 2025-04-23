@@ -904,4 +904,80 @@ describe('Matrix', () => {
       [1, 2],
     ]);
   });
+
+  it('diagonal', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.diagonal();
+    expect(result).toEqual([1, 5, 9]);
+  });
+
+  it('trace', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.trace();
+    expect(result).toBe(15);
+  });
+
+  it('rotateClockwise', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.rotateClockwise();
+    expect(asArray(result)).toEqual([
+      [4, 1],
+      [5, 2],
+      [6, 3],
+    ]);
+  });
+
+  it('rotateCounterClockwise', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.rotateCounterClockwise();
+    expect(asArray(result)).toEqual([
+      [3, 6],
+      [2, 5],
+      [1, 4],
+    ]);
+  });
+
+  it('flipHorizontal', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.flipHorizontal();
+    expect(asArray(result)).toEqual([
+      [3, 2, 1],
+      [6, 5, 4],
+    ]);
+  });
+
+  it('flipVertical', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.flipVertical();
+    expect(asArray(result)).toEqual([
+      [4, 5, 6],
+      [1, 2, 3],
+    ]);
+  });
 });

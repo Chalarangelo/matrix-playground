@@ -403,6 +403,23 @@ class Matrix {
     return new Matrix(result);
   }
 
+  // Diagonal
+
+  diagonal() {
+    const result = [];
+    const size = Math.min(this.rows, this.cols);
+    for (let i = 0; i < size; i++) {
+      result[i] = this.data[i][i];
+    }
+    return result;
+  }
+
+  trace() {
+    if (this.rows !== this.cols)
+      throw new Error('Matrix must be square to calculate trace');
+    return this.diagonal().reduce((acc, value) => acc + value, 0);
+  }
+
   // Determinant and Submatrices
 
   minorSubmatrix(row, col) {
@@ -640,6 +657,46 @@ class Matrix {
       if (callback(value, [i, j], this)) acc.push([i, j]);
       return acc;
     }, []);
+  }
+
+  // Flipping
+
+  flipHorizontal() {
+    const result = this.data.map(row => row.toReversed());
+    return new Matrix(result);
+  }
+
+  flipVertical() {
+    const result = this.data.toReversed().map(row => [...row]);
+    return new Matrix(result);
+  }
+
+  // Rotating
+
+  rotateClockwise() {
+    const result = [];
+
+    for (let j = 0; j < this.cols; j++) {
+      result[j] = [];
+      for (let i = this.rows - 1; i >= 0; i--) {
+        result[j][this.rows - i - 1] = this.data[i][j];
+      }
+    }
+
+    return new Matrix(result);
+  }
+
+  rotateCounterClockwise() {
+    const result = [];
+
+    for (let j = this.cols - 1; j >= 0; j--) {
+      result[this.cols - j - 1] = [];
+      for (let i = 0; i < this.rows; i++) {
+        result[this.cols - j - 1][i] = this.data[i][j];
+      }
+    }
+
+    return new Matrix(result);
   }
 }
 
