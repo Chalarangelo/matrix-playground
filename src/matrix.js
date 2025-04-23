@@ -50,12 +50,16 @@ class Matrix {
       for (let j = 0; j < this.cols; j++) yield this.data[i][j];
   }
 
-  // Fill
+  // Fill & copy
 
   fill(value) {
     this.data = Array.from({ length: this.rows }, () =>
       Array.from({ length: this.cols }, () => value)
     );
+  }
+
+  copy() {
+    return new Matrix(this.data.map(row => row.map(value => value)));
   }
 
   // Out of bounds check

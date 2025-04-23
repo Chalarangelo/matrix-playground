@@ -79,6 +79,20 @@ describe('Matrix', () => {
     ]);
   });
 
+  it('copy', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const copy = matrix.copy();
+    expect(asArray(copy)).toEqual([
+      [1, 2],
+      [3, 4],
+    ]);
+    expect(copy).not.toBe(matrix);
+  });
+
   it('from', () => {
     const rows = 3;
     const cols = 4;
