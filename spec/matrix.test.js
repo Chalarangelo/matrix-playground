@@ -833,4 +833,75 @@ describe('Matrix', () => {
       [4, 10, 18],
     ]);
   });
+
+  it('mask', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const mask = new Matrix([
+      [true, false, true],
+      [false, true, false],
+    ]);
+    const result = matrix.mask(mask);
+    expect(asArray(result)).toEqual([
+      [1, 0, 3],
+      [0, 5, 0],
+    ]);
+    const result2 = matrix.mask(value => value > 3);
+    expect(asArray(result2)).toEqual([
+      [0, 0, 0],
+      [4, 5, 6],
+    ]);
+  });
+
+  it('filter', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.filter(value => value > 3);
+    expect(asArray(result)).toEqual([
+      [undefined, undefined, undefined],
+      [4, 5, 6],
+    ]);
+  });
+
+  it('filterNonZero', () => {
+    const data = [
+      [0, 2, 3],
+      [4, 0, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.filterNonZero();
+    expect(asArray(result)).toEqual([
+      [undefined, 2, 3],
+      [4, undefined, 6],
+    ]);
+  });
+
+  it('findMatches', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.findMatches(value => value % 3 === 0);
+    expect(result).toEqual([3, 6]);
+  });
+
+  it('findIndexOfMatches', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.findIndexOfMatches(value => value % 3 === 0);
+    expect(result).toEqual([
+      [0, 2],
+      [1, 2],
+    ]);
+  });
 });

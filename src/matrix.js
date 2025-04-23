@@ -568,6 +568,79 @@ class Matrix {
   flatMap(callback) {
     return this.map(callback).flat();
   }
+
+  // Filtering
+
+  mask(maskValue) {
+    if (Array.isArray(maskValue)) {
+      if (this.rows !== maskValue.length || this.cols !== maskValue[0].length)
+        throw new Error('Matrix dimensions do not match');
+    } else if (maskValue instanceof Matrix) {
+      if (this.rows !== maskValue.rows || this.cols !== maskValue.cols)
+        throw new Error('Matrix dimensions do not match');
+    } else if (typeof maskValue !== 'function')
+      throw new TypeError('Mask value must be a function or a matrix');
+
+    const getMaskAt =
+      typeof maskValue === 'function'
+        ? maskValue
+        : Array.isArray(maskValue)
+          ? (_, [i, j]) => maskValue[i][j]
+          : (_, [i, j]) => maskValue.data[i][j];
+
+    const result = [];
+
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      for (let j = 0; j < this.cols; j++)
+        result[i][j] = getMaskAt(this.data[i][j], [i, j], this)
+          ? this.data[i][j]
+          : 0;
+    }
+
+    return new Matrix(result);
+  }
+
+  filter(callback) {
+    const result = [];
+
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      for (let j = 0; j < this.cols; j++)
+        if (callback(this.data[i][j], [i, j], this))
+          result[i][j] = this.data[i][j];
+        else result[i][j] = undefined;
+    }
+
+    return new Matrix(result);
+  }
+
+  filterNonZero() {
+    const result = [];
+
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      for (let j = 0; j < this.cols; j++)
+        if (this.data[i][j] !== 0) result[i][j] = this.data[i][j];
+        else result[i][j] = undefined;
+    }
+
+    return new Matrix(result);
+  }
+
+  findMatches(callback) {
+    return this.reduce((acc, value, [i, j]) => {
+      if (callback(value, [i, j], this)) acc.push(value);
+      return acc;
+    }, []);
+  }
+
+  findIndexOfMatches(callback) {
+    return this.reduce((acc, value, [i, j]) => {
+      if (callback(value, [i, j], this)) acc.push([i, j]);
+      return acc;
+    }, []);
+  }
 }
 
 export default Matrix;
