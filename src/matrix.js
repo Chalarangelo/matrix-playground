@@ -41,13 +41,11 @@ class Matrix {
   }
 
   *entries() {
-    for (let i = 0; i < this.rows; i++)
-      for (let j = 0; j < this.cols; j++) yield [i, j, this.data[i][j]];
+    for (let [i, j] of this.indexes()) yield [i, j, this.data[i][j]];
   }
 
   *[Symbol.iterator]() {
-    for (let i = 0; i < this.rows; i++)
-      for (let j = 0; j < this.cols; j++) yield this.data[i][j];
+    for (let [i, j] of this.indexes()) yield this.data[i][j];
   }
 
   // Fill & copy
@@ -119,10 +117,9 @@ class Matrix {
     if (this.cols !== matrix.rows)
       throw new Error('Matrix dimensions do not match');
 
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
 
     for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
       for (let j = 0; j < matrix.cols; j++) {
         result[i][j] = 0;
         for (let k = 0; k < this.cols; k++) {
@@ -141,13 +138,7 @@ class Matrix {
   // Math operations
 
   max() {
-    let max = this.data[0][0];
-
-    for (let i = 0; i < this.rows; i++)
-      for (let j = 0; j < this.cols; j++)
-        if (this.data[i][j] > max) max = this.data[i][j];
-
-    return max;
+    return this.reduce((acc, value) => Math.max(acc, value), this.data[0][0]);
   }
 
   maxPerRow() {
@@ -155,39 +146,29 @@ class Matrix {
   }
 
   maxPerCol() {
-    const result = [];
+    const result = Array.from({ length: this.cols }, (_, j) => this.data[0][j]);
 
-    for (let j = 0; j < this.cols; j++) {
-      result[j] = this.data[0][j];
-      for (let i = 1; i < this.rows; i++)
-        if (this.data[i][j] > result[j]) result[j] = this.data[i][j];
-    }
+    for (let [, j, value] of this.entries())
+      if (value > result[j]) result[j] = value;
 
     return result;
   }
 
   maxIndex() {
-    let maxIndex = [0, 0];
-    let maxValue = this.data[0][0];
-
-    for (let [i, j, value] of this.entries()) {
-      if (value > maxValue) {
-        maxValue = value;
-        maxIndex = [i, j];
-      }
-    }
-
-    return maxIndex;
+    return this.reduce(
+      ([maxValue, maxIndex], value, [i, j]) => {
+        if (value > maxValue) {
+          maxValue = value;
+          maxIndex = [i, j];
+        }
+        return [maxValue, maxIndex];
+      },
+      [this.data[0][0], [0, 0]]
+    )[1];
   }
 
   min() {
-    let min = this.data[0][0];
-
-    for (let i = 0; i < this.rows; i++)
-      for (let j = 0; j < this.cols; j++)
-        if (this.data[i][j] < min) min = this.data[i][j];
-
-    return min;
+    return this.reduce((acc, value) => Math.min(acc, value), this.data[0][0]);
   }
 
   minPerRow() {
@@ -195,29 +176,25 @@ class Matrix {
   }
 
   minPerCol() {
-    const result = [];
+    const result = Array.from({ length: this.cols }, (_, j) => this.data[0][j]);
 
-    for (let j = 0; j < this.cols; j++) {
-      result[j] = this.data[0][j];
-      for (let i = 1; i < this.rows; i++)
-        if (this.data[i][j] < result[j]) result[j] = this.data[i][j];
-    }
+    for (let [, j, value] of this.entries())
+      if (value < result[j]) result[j] = value;
 
     return result;
   }
 
   minIndex() {
-    let minIndex = [0, 0];
-    let minValue = this.data[0][0];
-
-    for (let [i, j, value] of this.entries()) {
-      if (value < minValue) {
-        minValue = value;
-        minIndex = [i, j];
-      }
-    }
-
-    return minIndex;
+    return this.reduce(
+      ([minValue, minIndex], value, [i, j]) => {
+        if (value < minValue) {
+          minValue = value;
+          minIndex = [i, j];
+        }
+        return [minValue, minIndex];
+      },
+      [this.data[0][0], [0, 0]]
+    )[1];
   }
 
   sum() {
@@ -229,13 +206,9 @@ class Matrix {
   }
 
   sumPerCol() {
-    const result = [];
-    for (let j = 0; j < this.cols; j++) {
-      result[j] = 0;
-      for (let i = 0; i < this.rows; i++) {
-        result[j] += this.data[i][j];
-      }
-    }
+    const result = Array.from({ length: this.cols }, () => 0);
+    for (let [, j, value] of this.entries()) result[j] += value;
+
     return result;
   }
 
@@ -248,13 +221,9 @@ class Matrix {
   }
 
   prodPerCol() {
-    const result = [];
-    for (let j = 0; j < this.cols; j++) {
-      result[j] = 1;
-      for (let i = 0; i < this.rows; i++) {
-        result[j] *= this.data[i][j];
-      }
-    }
+    const result = Array.from({ length: this.cols }, () => 1);
+    for (let [, j, value] of this.entries()) result[j] *= value;
+
     return result;
   }
 
@@ -311,22 +280,21 @@ class Matrix {
   }
 
   cumulativeSum() {
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
     let lastValue = 0;
-    for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
-      for (let j = 0; j < this.cols; j++) {
-        lastValue += this.data[i][j];
-        result[i][j] = lastValue;
-      }
+
+    for (let [i, j, value] of this.entries()) {
+      lastValue += value;
+      result[i][j] = lastValue;
     }
+
     return new Matrix(result);
   }
 
   cumulativeSumPerRow() {
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
+
     for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
       let lastValue = 0;
       for (let j = 0; j < this.cols; j++) {
         lastValue += this.data[i][j];
@@ -337,11 +305,11 @@ class Matrix {
   }
 
   cumulativeSumPerCol() {
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
+
     for (let j = 0; j < this.cols; j++) {
       let lastValue = 0;
       for (let i = 0; i < this.rows; i++) {
-        result[i] ??= [];
         lastValue += this.data[i][j];
         result[i][j] = lastValue;
       }
@@ -350,22 +318,21 @@ class Matrix {
   }
 
   cumulativeProd() {
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
     let lastValue = 1;
-    for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
-      for (let j = 0; j < this.cols; j++) {
-        lastValue *= this.data[i][j];
-        result[i][j] = lastValue;
-      }
+
+    for (let [i, j, value] of this.entries()) {
+      lastValue *= value;
+      result[i][j] = lastValue;
     }
+
     return new Matrix(result);
   }
 
   cumulativeProdPerRow() {
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
+
     for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
       let lastValue = 1;
       for (let j = 0; j < this.cols; j++) {
         lastValue *= this.data[i][j];
@@ -376,11 +343,11 @@ class Matrix {
   }
 
   cumulativeProdPerCol() {
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
+
     for (let j = 0; j < this.cols; j++) {
       let lastValue = 1;
       for (let i = 0; i < this.rows; i++) {
-        result[i] ??= [];
         lastValue *= this.data[i][j];
         result[i][j] = lastValue;
       }
@@ -391,14 +358,10 @@ class Matrix {
   // Transpose
 
   transpose() {
-    const result = [];
+    const result = Array.from({ length: this.cols }, () => []);
 
-    for (let i = 0; i < this.cols; i++) {
-      result[i] = [];
-      for (let j = 0; j < this.rows; j++) {
-        result[i][j] = this.data[j][i];
-      }
-    }
+    for (let i = 0; i < this.cols; i++)
+      for (let j = 0; j < this.rows; j++) result[i][j] = this.data[j][i];
 
     return new Matrix(result);
   }
@@ -408,15 +371,15 @@ class Matrix {
   diagonal() {
     const result = [];
     const size = Math.min(this.rows, this.cols);
-    for (let i = 0; i < size; i++) {
-      result[i] = this.data[i][i];
-    }
+    for (let i = 0; i < size; i++) result[i] = this.data[i][i];
+
     return result;
   }
 
   trace() {
     if (this.rows !== this.cols)
       throw new Error('Matrix must be square to calculate trace');
+
     return this.diagonal().reduce((acc, value) => acc + value, 0);
   }
 
@@ -443,9 +406,8 @@ class Matrix {
 
     for (let i = rowStart; i <= rowEnd; i++) {
       const newRow = [];
-      for (let j = colStart; j <= colEnd; j++) {
-        newRow.push(this.data[i][j]);
-      }
+      for (let j = colStart; j <= colEnd; j++) newRow.push(this.data[i][j]);
+
       result.push(newRow);
     }
 
@@ -546,13 +508,11 @@ class Matrix {
   }
 
   map(callback) {
-    const result = [];
+    const result = Array.from({ length: this.rows }, () => []);
 
-    for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
+    for (let i = 0; i < this.rows; i++)
       for (let j = 0; j < this.cols; j++)
         result[i][j] = callback(this.data[i][j], [i, j], this);
-    }
 
     return new Matrix(result);
   }
@@ -605,44 +565,19 @@ class Matrix {
           ? (_, [i, j]) => maskValue[i][j]
           : (_, [i, j]) => maskValue.data[i][j];
 
-    const result = [];
-
-    for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
-      for (let j = 0; j < this.cols; j++)
-        result[i][j] = getMaskAt(this.data[i][j], [i, j], this)
-          ? this.data[i][j]
-          : 0;
-    }
-
-    return new Matrix(result);
+    return this.map((value, [i, j]) =>
+      getMaskAt(value, [i, j], this) ? value : 0
+    );
   }
 
   filter(callback) {
-    const result = [];
-
-    for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
-      for (let j = 0; j < this.cols; j++)
-        if (callback(this.data[i][j], [i, j], this))
-          result[i][j] = this.data[i][j];
-        else result[i][j] = undefined;
-    }
-
-    return new Matrix(result);
+    return this.map((value, [i, j]) =>
+      callback(value, [i, j], this) ? value : undefined
+    );
   }
 
   filterNonZero() {
-    const result = [];
-
-    for (let i = 0; i < this.rows; i++) {
-      result[i] = [];
-      for (let j = 0; j < this.cols; j++)
-        if (this.data[i][j] !== 0) result[i][j] = this.data[i][j];
-        else result[i][j] = undefined;
-    }
-
-    return new Matrix(result);
+    return this.map(value => (value !== 0 ? value : undefined));
   }
 
   findMatches(callback) {
@@ -674,27 +609,21 @@ class Matrix {
   // Rotating
 
   rotateClockwise() {
-    const result = [];
+    const result = Array.from({ length: this.cols }, () => []);
 
-    for (let j = 0; j < this.cols; j++) {
-      result[j] = [];
-      for (let i = this.rows - 1; i >= 0; i--) {
+    for (let i = 0; i < this.rows; i++)
+      for (let j = 0; j < this.cols; j++)
         result[j][this.rows - i - 1] = this.data[i][j];
-      }
-    }
 
     return new Matrix(result);
   }
 
   rotateCounterClockwise() {
-    const result = [];
+    const result = Array.from({ length: this.cols }, () => []);
 
-    for (let j = this.cols - 1; j >= 0; j--) {
-      result[this.cols - j - 1] = [];
-      for (let i = 0; i < this.rows; i++) {
+    for (let i = 0; i < this.rows; i++)
+      for (let j = 0; j < this.cols; j++)
         result[this.cols - j - 1][i] = this.data[i][j];
-      }
-    }
 
     return new Matrix(result);
   }
