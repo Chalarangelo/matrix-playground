@@ -138,6 +138,256 @@ class Matrix {
     return new Matrix(this.data.map(row => row.map(value => value * scalar)));
   }
 
+  // Math operations
+
+  max() {
+    let max = this.data[0][0];
+
+    for (let i = 0; i < this.rows; i++)
+      for (let j = 0; j < this.cols; j++)
+        if (this.data[i][j] > max) max = this.data[i][j];
+
+    return max;
+  }
+
+  maxPerRow() {
+    return this.data.map(row => Math.max(...row));
+  }
+
+  maxPerCol() {
+    const result = [];
+
+    for (let j = 0; j < this.cols; j++) {
+      result[j] = this.data[0][j];
+      for (let i = 1; i < this.rows; i++)
+        if (this.data[i][j] > result[j]) result[j] = this.data[i][j];
+    }
+
+    return result;
+  }
+
+  maxIndex() {
+    let maxIndex = [0, 0];
+    let maxValue = this.data[0][0];
+
+    for (let [i, j, value] of this.entries()) {
+      if (value > maxValue) {
+        maxValue = value;
+        maxIndex = [i, j];
+      }
+    }
+
+    return maxIndex;
+  }
+
+  min() {
+    let min = this.data[0][0];
+
+    for (let i = 0; i < this.rows; i++)
+      for (let j = 0; j < this.cols; j++)
+        if (this.data[i][j] < min) min = this.data[i][j];
+
+    return min;
+  }
+
+  minPerRow() {
+    return this.data.map(row => Math.min(...row));
+  }
+
+  minPerCol() {
+    const result = [];
+
+    for (let j = 0; j < this.cols; j++) {
+      result[j] = this.data[0][j];
+      for (let i = 1; i < this.rows; i++)
+        if (this.data[i][j] < result[j]) result[j] = this.data[i][j];
+    }
+
+    return result;
+  }
+
+  minIndex() {
+    let minIndex = [0, 0];
+    let minValue = this.data[0][0];
+
+    for (let [i, j, value] of this.entries()) {
+      if (value < minValue) {
+        minValue = value;
+        minIndex = [i, j];
+      }
+    }
+
+    return minIndex;
+  }
+
+  sum() {
+    return this.reduce((acc, value) => acc + value, 0);
+  }
+
+  sumPerRow() {
+    return this.data.map(row => row.reduce((acc, value) => acc + value, 0));
+  }
+
+  sumPerCol() {
+    const result = [];
+    for (let j = 0; j < this.cols; j++) {
+      result[j] = 0;
+      for (let i = 0; i < this.rows; i++) {
+        result[j] += this.data[i][j];
+      }
+    }
+    return result;
+  }
+
+  prod() {
+    return this.reduce((acc, value) => acc * value, 1);
+  }
+
+  prodPerRow() {
+    return this.data.map(row => row.reduce((acc, value) => acc * value, 1));
+  }
+
+  prodPerCol() {
+    const result = [];
+    for (let j = 0; j < this.cols; j++) {
+      result[j] = 1;
+      for (let i = 0; i < this.rows; i++) {
+        result[j] *= this.data[i][j];
+      }
+    }
+    return result;
+  }
+
+  mean() {
+    return this.sum() / (this.rows * this.cols);
+  }
+
+  meanPerRow() {
+    return this.sumPerRow().map(sum => sum / this.cols);
+  }
+
+  meanPerCol() {
+    return this.sumPerCol().map(sum => sum / this.rows);
+  }
+
+  variance() {
+    const mean = this.mean();
+    return (
+      this.reduce((acc, value) => acc + Math.pow(value - mean, 2), 0) /
+      (this.rows * this.cols)
+    );
+  }
+
+  variancePerRow() {
+    return this.meanPerRow().map(
+      (mean, i) =>
+        this.data[i].reduce(
+          (acc, value) => acc + Math.pow(value - mean, 2),
+          0
+        ) / this.cols
+    );
+  }
+
+  variancePerCol() {
+    return this.meanPerCol().map((mean, j) => {
+      let sum = 0;
+      for (let i = 0; i < this.rows; i++) {
+        sum += Math.pow(this.data[i][j] - mean, 2);
+      }
+      return sum / this.rows;
+    });
+  }
+
+  std() {
+    return Math.sqrt(this.variance());
+  }
+
+  stdPerRow() {
+    return this.variancePerRow().map(variance => Math.sqrt(variance));
+  }
+
+  stdPerCol() {
+    return this.variancePerCol().map(variance => Math.sqrt(variance));
+  }
+
+  cumulativeSum() {
+    const result = [];
+    let lastValue = 0;
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      for (let j = 0; j < this.cols; j++) {
+        lastValue += this.data[i][j];
+        result[i][j] = lastValue;
+      }
+    }
+    return new Matrix(result);
+  }
+
+  cumulativeSumPerRow() {
+    const result = [];
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      let lastValue = 0;
+      for (let j = 0; j < this.cols; j++) {
+        lastValue += this.data[i][j];
+        result[i][j] = lastValue;
+      }
+    }
+    return new Matrix(result);
+  }
+
+  cumulativeSumPerCol() {
+    const result = [];
+    for (let j = 0; j < this.cols; j++) {
+      let lastValue = 0;
+      for (let i = 0; i < this.rows; i++) {
+        result[i] ??= [];
+        lastValue += this.data[i][j];
+        result[i][j] = lastValue;
+      }
+    }
+    return new Matrix(result);
+  }
+
+  cumulativeProd() {
+    const result = [];
+    let lastValue = 1;
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      for (let j = 0; j < this.cols; j++) {
+        lastValue *= this.data[i][j];
+        result[i][j] = lastValue;
+      }
+    }
+    return new Matrix(result);
+  }
+
+  cumulativeProdPerRow() {
+    const result = [];
+    for (let i = 0; i < this.rows; i++) {
+      result[i] = [];
+      let lastValue = 1;
+      for (let j = 0; j < this.cols; j++) {
+        lastValue *= this.data[i][j];
+        result[i][j] = lastValue;
+      }
+    }
+    return new Matrix(result);
+  }
+
+  cumulativeProdPerCol() {
+    const result = [];
+    for (let j = 0; j < this.cols; j++) {
+      let lastValue = 1;
+      for (let i = 0; i < this.rows; i++) {
+        result[i] ??= [];
+        lastValue *= this.data[i][j];
+        result[i][j] = lastValue;
+      }
+    }
+    return new Matrix(result);
+  }
+
   // Transpose
 
   transpose() {

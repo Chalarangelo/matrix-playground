@@ -525,4 +525,312 @@ describe('Matrix', () => {
     const result = matrix.flatMap(value => [value, value * 2]);
     expect(result).toEqual([1, 2, 2, 4, 3, 6, 4, 8]);
   });
+
+  it('max', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.max();
+    expect(result).toBe(6);
+  });
+
+  it('maxPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.maxPerRow();
+    expect(result).toEqual([3, 6]);
+  });
+
+  it('maxPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.maxPerCol();
+    expect(result).toEqual([4, 5, 6]);
+  });
+
+  it('maxIndex', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.maxIndex();
+    expect(result).toEqual([1, 2]);
+  });
+
+  it('min', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.min();
+    expect(result).toBe(1);
+  });
+
+  it('minPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.minPerRow();
+    expect(result).toEqual([1, 4]);
+  });
+
+  it('minPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.minPerCol();
+    expect(result).toEqual([1, 2, 3]);
+  });
+
+  it('minIndex', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.minIndex();
+    expect(result).toEqual([0, 0]);
+  });
+
+  it('sum', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.sum();
+    expect(result).toBe(21);
+  });
+
+  it('sumPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.sumPerRow();
+    expect(result).toEqual([6, 15]);
+  });
+
+  it('sumPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.sumPerCol();
+    expect(result).toEqual([5, 7, 9]);
+  });
+
+  it('prod', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.prod();
+    expect(result).toBe(720);
+  });
+
+  it('prodPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.prodPerRow();
+    expect(result).toEqual([6, 120]);
+  });
+
+  it('prodPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.prodPerCol();
+    expect(result).toEqual([4, 10, 18]);
+  });
+
+  it('mean', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.mean();
+    expect(result).toBe(3.5);
+  });
+
+  it('meanPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.meanPerRow();
+    expect(result).toEqual([2, 5]);
+  });
+
+  it('meanPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.meanPerCol();
+    expect(result).toEqual([2.5, 3.5, 4.5]);
+  });
+
+  it('variance', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.variance();
+    expect(result).toBe(2.9166666666666665);
+  });
+
+  it('variancePerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.variancePerRow();
+    expect(result).toEqual([0.6666666666666666, 0.6666666666666666]);
+  });
+
+  it('variancePerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.variancePerCol();
+    expect(result).toEqual([2.25, 2.25, 2.25]);
+  });
+
+  it('std', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.std();
+    expect(result).toBe(1.707825127659933);
+  });
+
+  it('stdPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.stdPerRow();
+    expect(result).toEqual([0.816496580927726, 0.816496580927726]);
+  });
+
+  it('stdPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.stdPerCol();
+    expect(result).toEqual([1.5, 1.5, 1.5]);
+  });
+
+  it('cumulativeSum', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.cumulativeSum();
+    expect(asArray(result)).toEqual([
+      [1, 3, 6],
+      [10, 15, 21],
+    ]);
+  });
+
+  it('cumulativeSumPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.cumulativeSumPerRow();
+    expect(asArray(result)).toEqual([
+      [1, 3, 6],
+      [4, 9, 15],
+    ]);
+  });
+
+  it('cumulativeSumPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.cumulativeSumPerCol();
+    expect(asArray(result)).toEqual([
+      [1, 2, 3],
+      [5, 7, 9],
+    ]);
+  });
+
+  it('cumulativeProd', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.cumulativeProd();
+    expect(asArray(result)).toEqual([
+      [1, 2, 6],
+      [24, 120, 720],
+    ]);
+  });
+
+  it('cumulativeProdPerRow', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.cumulativeProdPerRow();
+    expect(asArray(result)).toEqual([
+      [1, 2, 6],
+      [4, 20, 120],
+    ]);
+  });
+
+  it('cumulativeProdPerCol', () => {
+    const data = [
+      [1, 2, 3],
+      [4, 5, 6],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.cumulativeProdPerCol();
+    expect(asArray(result)).toEqual([
+      [1, 2, 3],
+      [4, 10, 18],
+    ]);
+  });
 });
