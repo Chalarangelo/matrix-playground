@@ -491,4 +491,24 @@ describe('Matrix', () => {
     const result = matrix.reduceRight((acc, value) => acc + value, '');
     expect(result).toBe('4321');
   });
+
+  it('flat', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.flat();
+    expect(result).toEqual([1, 2, 3, 4]);
+  });
+
+  it('flatMap', () => {
+    const data = [
+      [1, 2],
+      [3, 4],
+    ];
+    const matrix = new Matrix(data);
+    const result = matrix.flatMap(value => [value, value * 2]);
+    expect(result).toEqual([1, 2, 2, 4, 3, 6, 4, 8]);
+  });
 });

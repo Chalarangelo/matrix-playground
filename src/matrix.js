@@ -279,9 +279,8 @@ class Matrix {
 
     for (let i = 0; i < this.rows; i++) {
       result[i] = [];
-      for (let j = 0; j < this.cols; j++) {
+      for (let j = 0; j < this.cols; j++)
         result[i][j] = callback(this.data[i][j], [i, j], this);
-      }
     }
 
     return new Matrix(result);
@@ -290,9 +289,8 @@ class Matrix {
   reduce(callback, initialValue) {
     let accumulator = initialValue;
 
-    for (let [i, j, value] of this.entries()) {
+    for (let [i, j, value] of this.entries())
       accumulator = callback(accumulator, value, [i, j], this);
-    }
 
     return accumulator;
   }
@@ -305,6 +303,16 @@ class Matrix {
         accumulator = callback(accumulator, this.data[i][j], [i, j], this);
 
     return accumulator;
+  }
+
+  // Flattening
+
+  flat() {
+    return this.data.flat(2);
+  }
+
+  flatMap(callback) {
+    return this.map(callback).flat();
   }
 }
 
