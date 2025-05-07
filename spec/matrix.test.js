@@ -981,6 +981,44 @@ describe('Matrix', () => {
     ]);
   });
 
+  it('mergeRows', () => {
+    const data1 = [
+      [1, 2],
+      [3, 4],
+    ];
+    const data2 = [
+      [5, 6],
+      [7, 8],
+    ];
+    const a = new Matrix(data1);
+    const b = new Matrix(data2);
+    const result = a.mergeRows(b);
+    expect(asArray(result)).toEqual([
+      [1, 2, 5, 6],
+      [3, 4, 7, 8],
+    ]);
+  });
+
+  it('mergeColumns', () => {
+    const data1 = [
+      [1, 2],
+      [3, 4],
+    ];
+    const data2 = [
+      [5, 6],
+      [7, 8],
+    ];
+    const a = new Matrix(data1);
+    const b = new Matrix(data2);
+    const result = a.mergeColumns(b);
+    expect(asArray(result)).toEqual([
+      [1, 2],
+      [3, 4],
+      [5, 6],
+      [7, 8],
+    ]);
+  });
+
   it('toJSON', () => {
     const data = [
       [1, 2, 3],

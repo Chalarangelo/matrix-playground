@@ -628,6 +628,20 @@ class Matrix {
     return new Matrix(result);
   }
 
+  mergeColumns(matrix) {
+    if (this.cols !== matrix.cols)
+      throw new Error('Matrix dimensions do not match');
+
+    return new Matrix(this.data.concat(matrix.data));
+  }
+
+  mergeRows(matrix) {
+    if (this.rows !== matrix.rows)
+      throw new Error('Matrix dimensions do not match');
+
+    return new Matrix(this.data.map((row, i) => row.concat(matrix.data[i])));
+  }
+
   // String
 
   toString() {
