@@ -628,6 +628,8 @@ class Matrix {
     return new Matrix(result);
   }
 
+  // Merging
+
   mergeColumns(matrix) {
     if (this.cols !== matrix.cols)
       throw new Error('Matrix dimensions do not match');
@@ -641,6 +643,8 @@ class Matrix {
 
     return new Matrix(this.data.map((row, i) => row.concat(matrix.data[i])));
   }
+
+  // Expanding
 
   expandRows(rows, fillValue = 0) {
     const newRows = new Matrix({ rows, cols: this.cols });
