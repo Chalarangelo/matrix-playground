@@ -642,6 +642,20 @@ class Matrix {
     return new Matrix(this.data.map((row, i) => row.concat(matrix.data[i])));
   }
 
+  expandRows(rows, fillValue = 0) {
+    const newRows = new Matrix({ rows, cols: this.cols });
+    newRows.fill(fillValue);
+
+    return this.mergeColumns(newRows);
+  }
+
+  expandColumns(cols, fillValue = 0) {
+    const newCols = new Matrix({ rows: this.rows, cols });
+    newCols.fill(fillValue);
+
+    return this.mergeRows(newCols);
+  }
+
   // String
 
   toString() {
