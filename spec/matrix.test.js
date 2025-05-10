@@ -999,7 +999,7 @@ describe('Matrix', () => {
     ]);
   });
 
-  it('mergeColumns', () => {
+  it('mergeCols', () => {
     const data1 = [
       [1, 2],
       [3, 4],
@@ -1010,7 +1010,7 @@ describe('Matrix', () => {
     ];
     const a = new Matrix(data1);
     const b = new Matrix(data2);
-    const result = a.mergeColumns(b);
+    const result = a.mergeCols(b);
     expect(asArray(result)).toEqual([
       [1, 2],
       [3, 4],
@@ -1034,13 +1034,13 @@ describe('Matrix', () => {
     ]);
   });
 
-  it('expandColumns', () => {
+  it('expandCols', () => {
     const data = [
       [1, 2, 3],
       [4, 5, 6],
     ];
     const matrix = new Matrix(data);
-    const result = matrix.expandColumns(2);
+    const result = matrix.expandCols(2);
     expect(asArray(result)).toEqual([
       [1, 2, 3, 0, 0],
       [4, 5, 6, 0, 0],

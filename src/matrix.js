@@ -630,7 +630,7 @@ class Matrix {
 
   // Merging
 
-  mergeColumns(matrix) {
+  mergeCols(matrix) {
     if (this.cols !== matrix.cols)
       throw new Error('Matrix dimensions do not match');
 
@@ -650,10 +650,10 @@ class Matrix {
     const newRows = new Matrix({ rows, cols: this.cols });
     newRows.fill(fillValue);
 
-    return this.mergeColumns(newRows);
+    return this.mergeCols(newRows);
   }
 
-  expandColumns(cols, fillValue = 0) {
+  expandCols(cols, fillValue = 0) {
     const newCols = new Matrix({ rows: this.rows, cols });
     newCols.fill(fillValue);
 
